@@ -13,8 +13,8 @@ app.use(cors());
 app.use(express.json()); // replaces body-parser
 
 // MongoDB
-const MONGO_URI = process.env.MONGO_URI;
-const DBNAME = process.env.DBNAME;
+const url = process.env.MONGO_URI;
+const dbName = process.env.DBNAME;
 const COLLECTION = process.env.COLLECTION;
 const client = new MongoClient(url);
 const db = client.db(dbName);
@@ -34,7 +34,7 @@ app.get("/contacts", async (req, res) => {
 
     const query = {};
     const results = await db
-        .collection(collection)
+        .collection(COLLECTION)
         .find(query)
         .limit(100)
         .toArray();
@@ -58,7 +58,7 @@ app.post("/contacts", async (req, res) => {
         console.log("Node connected successfully to POST MongoDB");
 
         // Reference collection
-        const contactsCollection = db.collection(collection);
+        const contactsCollection = db.collection(COLLECTION);
 
         // Check if contact already exists
         const existingContact = await contactsCollection.findOne({
@@ -104,7 +104,7 @@ app.delete("/contacts/:name", async (req, res) => {
         await client.connect();
         console.log("Node connected successfully to POST MongoDB");
         // Reference collection
-        const contactsCollection = db.collection(collection);
+        const contactsCollection = db.collection(COLLECTION);
         // Check if contact already exists
         const existingContact = await contactsCollection.findOne({
             contact_name: name,
@@ -154,7 +154,7 @@ app.put("/contacts/:name", async (req, res) => {
         await client.connect();
         console.log("Node connected successfully to UPDATE MongoDB");
 
-        const contactsCollection = db.collection(collection);
+        const contactsCollection = db.collection(COLLECTION);
 
         // Perform the update
         const result = await contactsCollection.updateOne(
@@ -187,7 +187,7 @@ app.get("/contacts/:name", async (req, res) => {
         await client.connect();
         console.log("Node connected successfully to GET (single) MongoDB");
 
-        const contactsCollection = db.collection(collection);
+        const contactsCollection = db.collection(COLLECTION);
         const contact = await contactsCollection.findOne({ contact_name: name });
         if (!contact) {
             return res.status(404).json({ message: `Contact with name '${name}' not found.` });
