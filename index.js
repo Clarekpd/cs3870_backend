@@ -29,6 +29,10 @@ app.listen(PORT, HOST, () => {
     console.log(`Server running at http://${HOST}:${PORT}`);
 });
 
+app.get("/name", (req, res) => {
+    res.send("My name is Clare");
+})
+
 app.get("/contacts", async (req, res) => {
     await client.connect();
     console.log("Node connected successfully to GET MongoDB");
@@ -202,5 +206,6 @@ app.get("/contacts/:name", async (req, res) => {
         await client.close();
     }
 });
+
 
 
