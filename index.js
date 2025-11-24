@@ -16,6 +16,7 @@ app.use(express.json()); // replaces body-parser
 const url = process.env.MONGO_URI;
 const dbName = process.env.DBNAME;
 const COLLECTION = process.env.COLLECTION;
+
 const client = new MongoClient(url);
 const db = client.db(dbName);
 
