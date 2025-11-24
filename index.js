@@ -22,7 +22,7 @@ const db = client.db(dbName);
 
 // Server configuration
 const PORT = process.env.PORT ?? 8081;
-const HOST = process.env.HOST ?? "0.0.0.0";
+const HOST = process.env.HOST ?? "127.0.0.2";
 
 // Start server
 app.listen(PORT, HOST, () => {
@@ -202,3 +202,4 @@ app.get("/contacts/:name", async (req, res) => {
         await client.close();
     }
 });
+
